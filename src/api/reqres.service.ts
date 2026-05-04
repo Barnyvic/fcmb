@@ -1,10 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, catchError, map, of, throwError } from 'rxjs';
-import { demoListResponse, demoUserDetail } from './reqresDemoData';
+import { Observable, catchError, throwError } from 'rxjs';
 import type { RegisterPayload, RegisterResponse, UserDetailResponse, UsersResponse } from '../types/reqres';
 
 const apiBaseUrl = 'https://reqres.in/api';
+const reqresApiKey = 'reqres_535611e033b649bda5e171041e592a95';
 
 @Injectable({ providedIn: 'root' })
 export class ReqresService {
@@ -29,44 +29,24 @@ export class ReqresService {
   }
 
   private headers(): HttpHeaders {
-    return new HttpHeaders({ 'Content-Type': 'application/json' });
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-api-key': reqresApiKey,
+    });
   }
 
   private handleRegisterError(error: unknown, payload: RegisterPayload): Observable<RegisterResponse> {
-    if (this.isMissingApiKey(error)) {
-      return of({
-        ...payload,
-        id: String(Math.floor(100 + Math.random() * 900)),
-        createdAt: new Date().toISOString(),
-      });
-    }
-
+    void payload;
     return throwError(() => this.toError(error));
   }
 
   private handleUsersError(error: unknown): Observable<UsersResponse> {
-    if (this.isMissingApiKey(error)) {
-      return of(demoListResponse);
-    }
-
     return throwError(() => this.toError(error));
   }
 
   private handleUserError(error: unknown, userId: number): Observable<UserDetailResponse> {
-    if (this.isMissingApiKey(error)) {
-      return of(demoListResponse.data.find((user) => user.id === userId)).pipe(
-        map((user) => ({
-          ...demoUserDetail,
-          data: user ?? demoUserDetail.data,
-        })),
-      );
-    }
-
+    void userId;
     return throwError(() => this.toError(error));
-  }
-
-  private isMissingApiKey(error: unknown): boolean {
-    return error instanceof HttpErrorResponse && error.status === 401;
   }
 
   private toError(error: unknown): Error {

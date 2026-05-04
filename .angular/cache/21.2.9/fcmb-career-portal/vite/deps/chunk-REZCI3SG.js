@@ -1,17 +1,17 @@
 import {
   withHttpTransferCache
-} from "./chunk-QTU6BERI.js";
+} from "./chunk-JVQZM7KU.js";
 import {
   CommonModule,
   PLATFORM_BROWSER_ID
-} from "./chunk-I76236BP.js";
+} from "./chunk-KYGZLN3K.js";
 import {
   DomAdapter,
   XhrFactory,
   getDOM,
   parseCookieValue,
   setRootDomAdapter
-} from "./chunk-ZXLUOLJM.js";
+} from "./chunk-LTKLEVAG.js";
 import {
   APP_ID,
   ApplicationModule,
@@ -54,7 +54,7 @@ import {
   withI18nSupport,
   withIncrementalHydration,
   ɵɵdefineNgModule
-} from "./chunk-BC6XTSK2.js";
+} from "./chunk-5UVLSCHP.js";
 import {
   DOCUMENT,
   ENVIRONMENT_INITIALIZER,
@@ -74,10 +74,11 @@ import {
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵinject
-} from "./chunk-7NO6JVOG.js";
+} from "./chunk-XSWK6YJS.js";
 import {
+  __async,
   __spreadValues
-} from "./chunk-PJVWDKLX.js";
+} from "./chunk-KUW5KNZA.js";
 
 // node_modules/@angular/platform-browser/fesm2022/_dom_renderer-chunk.mjs
 var EventManagerPlugin = class {
@@ -1013,20 +1014,24 @@ var KeyEventsPlugin = class _KeyEventsPlugin extends EventManagerPlugin {
     }]
   }], null);
 })();
-async function bootstrapApplication(rootComponent, options, context) {
-  const config = __spreadValues({
-    rootComponent
-  }, createProvidersConfig(options, context));
-  if (false) {
-    await resolveJitResources();
-  }
-  return internalCreateApplication(config);
+function bootstrapApplication(rootComponent, options, context) {
+  return __async(this, null, function* () {
+    const config = __spreadValues({
+      rootComponent
+    }, createProvidersConfig(options, context));
+    if (false) {
+      yield resolveJitResources();
+    }
+    return internalCreateApplication(config);
+  });
 }
-async function createApplication(options, context) {
-  if (false) {
-    await resolveJitResources();
-  }
-  return internalCreateApplication(createProvidersConfig(options, context));
+function createApplication(options, context) {
+  return __async(this, null, function* () {
+    if (false) {
+      yield resolveJitResources();
+    }
+    return internalCreateApplication(createProvidersConfig(options, context));
+  });
 }
 function createProvidersConfig(options, context) {
   return {
@@ -1748,4 +1753,4 @@ export {
   provideClientHydration,
   VERSION
 };
-//# sourceMappingURL=chunk-PYWZIDFJ.js.map
+//# sourceMappingURL=chunk-REZCI3SG.js.map

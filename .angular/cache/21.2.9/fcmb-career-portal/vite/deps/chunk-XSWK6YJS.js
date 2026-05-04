@@ -3,9 +3,10 @@ import {
   Observable,
   Subject,
   Subscription,
+  __async,
   __spreadProps,
   __spreadValues
-} from "./chunk-PJVWDKLX.js";
+} from "./chunk-KUW5KNZA.js";
 
 // node_modules/@angular/core/fesm2022/_effect-chunk.mjs
 var activeConsumer = null;
@@ -538,7 +539,7 @@ var formatter = {
     if (!isSignal(sig)) return false;
     try {
       sig();
-    } catch {
+    } catch (e) {
       return false;
     }
     return !config?.ngSkipFormatting;
@@ -2897,7 +2898,7 @@ function scheduleCallbackWithRafRace(callback) {
       if (timeoutId !== void 0) {
         clearTimeout(timeoutId);
       }
-    } catch {
+    } catch (e) {
     }
   }
   timeoutId = setTimeout(() => {
@@ -3798,57 +3799,59 @@ var ResourceImpl = class extends BaseWritableResource {
       stream: void 0
     });
   }
-  async loadEffect() {
-    const extRequest = this.extRequest();
-    const {
-      status: currentStatus,
-      previousStatus
-    } = untracked2(this.state);
-    if (extRequest.request === void 0) {
-      return;
-    } else if (currentStatus !== "loading") {
-      return;
-    }
-    this.abortInProgressLoad();
-    let resolvePendingTask = this.resolvePendingTask = this.pendingTasks.add();
-    const {
-      signal: abortSignal
-    } = this.pendingController = new AbortController();
-    try {
-      const stream = await untracked2(() => {
-        return this.loaderFn({
-          params: extRequest.request,
-          abortSignal,
-          previous: {
-            status: previousStatus
-          }
+  loadEffect() {
+    return __async(this, null, function* () {
+      const extRequest = this.extRequest();
+      const {
+        status: currentStatus,
+        previousStatus
+      } = untracked2(this.state);
+      if (extRequest.request === void 0) {
+        return;
+      } else if (currentStatus !== "loading") {
+        return;
+      }
+      this.abortInProgressLoad();
+      let resolvePendingTask = this.resolvePendingTask = this.pendingTasks.add();
+      const {
+        signal: abortSignal
+      } = this.pendingController = new AbortController();
+      try {
+        const stream = yield untracked2(() => {
+          return this.loaderFn({
+            params: extRequest.request,
+            abortSignal,
+            previous: {
+              status: previousStatus
+            }
+          });
         });
-      });
-      if (abortSignal.aborted || untracked2(this.extRequest) !== extRequest) {
-        return;
+        if (abortSignal.aborted || untracked2(this.extRequest) !== extRequest) {
+          return;
+        }
+        this.state.set({
+          extRequest,
+          status: "resolved",
+          previousStatus: "resolved",
+          stream
+        });
+      } catch (err) {
+        if (abortSignal.aborted || untracked2(this.extRequest) !== extRequest) {
+          return;
+        }
+        this.state.set({
+          extRequest,
+          status: "resolved",
+          previousStatus: "error",
+          stream: signal({
+            error: encapsulateResourceError(err)
+          }, ngDevMode ? createDebugNameObject(this.debugName, "stream") : void 0)
+        });
+      } finally {
+        resolvePendingTask?.();
+        resolvePendingTask = void 0;
       }
-      this.state.set({
-        extRequest,
-        status: "resolved",
-        previousStatus: "resolved",
-        stream
-      });
-    } catch (err) {
-      if (abortSignal.aborted || untracked2(this.extRequest) !== extRequest) {
-        return;
-      }
-      this.state.set({
-        extRequest,
-        status: "resolved",
-        previousStatus: "error",
-        stream: signal({
-          error: encapsulateResourceError(err)
-        }, ngDevMode ? createDebugNameObject(this.debugName, "stream") : void 0)
-      });
-    } finally {
-      resolvePendingTask?.();
-      resolvePendingTask = void 0;
-    }
+    });
   }
   abortInProgressLoad() {
     untracked2(() => this.pendingController?.abort());
@@ -3864,17 +3867,17 @@ function getLoader(options) {
   if (isStreamingResourceOptions(options)) {
     return options.stream;
   }
-  return async (params) => {
+  return (params) => __async(null, null, function* () {
     try {
       return signal({
-        value: await options.loader(params)
+        value: yield options.loader(params)
       }, ngDevMode ? createDebugNameObject(options.debugName, "stream") : void 0);
     } catch (err) {
       return signal({
         error: encapsulateResourceError(err)
       }, ngDevMode ? createDebugNameObject(options.debugName, "stream") : void 0);
     }
-  };
+  });
 }
 function isStreamingResourceOptions(options) {
   return !!options.stream;
@@ -4233,4 +4236,4 @@ export {
   encapsulateResourceError,
   ResourceValueError
 };
-//# sourceMappingURL=chunk-7NO6JVOG.js.map
+//# sourceMappingURL=chunk-XSWK6YJS.js.map

@@ -14,6 +14,7 @@
           "options": {
             "browser": "src/main.ts",
             "index": "index.html",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -56,5 +57,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

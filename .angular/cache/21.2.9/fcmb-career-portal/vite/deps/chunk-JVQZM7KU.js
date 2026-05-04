@@ -2,7 +2,7 @@ import {
   PlatformLocation,
   XhrFactory,
   parseCookieValue
-} from "./chunk-ZXLUOLJM.js";
+} from "./chunk-LTKLEVAG.js";
 import {
   APP_BOOTSTRAP_LISTENER,
   ApplicationRef,
@@ -16,7 +16,7 @@ import {
   performanceMarkFeature,
   setClassMetadata,
   ɵɵdefineNgModule
-} from "./chunk-BC6XTSK2.js";
+} from "./chunk-5UVLSCHP.js";
 import {
   DOCUMENT,
   DestroyRef,
@@ -40,9 +40,10 @@ import {
   ɵɵdefineInjectable,
   ɵɵdefineInjector,
   ɵɵinject
-} from "./chunk-7NO6JVOG.js";
+} from "./chunk-XSWK6YJS.js";
 import {
   Observable,
+  __async,
   __objRest,
   __spreadProps,
   __spreadValues,
@@ -52,7 +53,7 @@ import {
   map,
   of,
   switchMap
-} from "./chunk-PJVWDKLX.js";
+} from "./chunk-KUW5KNZA.js";
 
 // node_modules/@angular/common/fesm2022/_module-chunk.mjs
 var HttpHeaders = class _HttpHeaders {
@@ -822,127 +823,129 @@ var FetchBackend = class _FetchBackend {
       };
     });
   }
-  async doRequest(request, signal2, observer) {
-    const init = this.createRequestInit(request);
-    let response;
-    try {
-      const fetchPromise = this.ngZone.runOutsideAngular(() => this.fetchImpl(request.urlWithParams, __spreadValues({
-        signal: signal2
-      }, init)));
-      silenceSuperfluousUnhandledPromiseRejection(fetchPromise);
-      observer.next({
-        type: HttpEventType.Sent
-      });
-      response = await fetchPromise;
-    } catch (error) {
-      observer.error(new HttpErrorResponse({
-        error,
-        status: error.status ?? 0,
-        statusText: error.statusText,
-        url: request.urlWithParams,
-        headers: error.headers
-      }));
-      return;
-    }
-    const headers = new HttpHeaders(response.headers);
-    const statusText = response.statusText;
-    const url = response.url || request.urlWithParams;
-    let status = response.status;
-    let body = null;
-    if (request.reportProgress) {
-      observer.next(new HttpHeaderResponse({
-        headers,
-        status,
-        statusText,
-        url
-      }));
-    }
-    if (response.body) {
-      const contentLength = response.headers.get("content-length");
-      const chunks = [];
-      const reader = response.body.getReader();
-      let receivedLength = 0;
-      let decoder;
-      let partialText;
-      const reqZone = typeof Zone !== "undefined" && Zone.current;
-      let canceled = false;
-      await this.ngZone.runOutsideAngular(async () => {
-        while (true) {
-          if (this.destroyRef.destroyed) {
-            await reader.cancel();
-            canceled = true;
-            break;
-          }
-          const {
-            done,
-            value
-          } = await reader.read();
-          if (done) {
-            break;
-          }
-          chunks.push(value);
-          receivedLength += value.length;
-          if (request.reportProgress) {
-            partialText = request.responseType === "text" ? (partialText ?? "") + (decoder ??= new TextDecoder()).decode(value, {
-              stream: true
-            }) : void 0;
-            const reportProgress = () => observer.next({
-              type: HttpEventType.DownloadProgress,
-              total: contentLength ? +contentLength : void 0,
-              loaded: receivedLength,
-              partialText
-            });
-            reqZone ? reqZone.run(reportProgress) : reportProgress();
-          }
-        }
-      });
-      if (canceled) {
-        observer.complete();
-        return;
-      }
-      const chunksAll = this.concatChunks(chunks, receivedLength);
+  doRequest(request, signal2, observer) {
+    return __async(this, null, function* () {
+      const init = this.createRequestInit(request);
+      let response;
       try {
-        const contentType = response.headers.get(CONTENT_TYPE_HEADER) ?? "";
-        body = this.parseBody(request, chunksAll, contentType, status);
+        const fetchPromise = this.ngZone.runOutsideAngular(() => this.fetchImpl(request.urlWithParams, __spreadValues({
+          signal: signal2
+        }, init)));
+        silenceSuperfluousUnhandledPromiseRejection(fetchPromise);
+        observer.next({
+          type: HttpEventType.Sent
+        });
+        response = yield fetchPromise;
       } catch (error) {
         observer.error(new HttpErrorResponse({
           error,
-          headers: new HttpHeaders(response.headers),
-          status: response.status,
-          statusText: response.statusText,
-          url: response.url || request.urlWithParams
+          status: error.status ?? 0,
+          statusText: error.statusText,
+          url: request.urlWithParams,
+          headers: error.headers
         }));
         return;
       }
-    }
-    if (status === 0) {
-      status = body ? HTTP_STATUS_CODE_OK : 0;
-    }
-    const ok = status >= 200 && status < 300;
-    const redirected = response.redirected;
-    const responseType = response.type;
-    if (ok) {
-      observer.next(new HttpResponse({
-        body,
-        headers,
-        status,
-        statusText,
-        url,
-        redirected,
-        responseType
-      }));
-      observer.complete();
-    } else {
-      observer.error(new HttpErrorResponse({
-        error: body,
-        headers,
-        status,
-        statusText,
-        url,
-        redirected,
-        responseType
-      }));
-    }
+      const headers = new HttpHeaders(response.headers);
+      const statusText = response.statusText;
+      const url = response.url || request.urlWithParams;
+      let status = response.status;
+      let body = null;
+      if (request.reportProgress) {
+        observer.next(new HttpHeaderResponse({
+          headers,
+          status,
+          statusText,
+          url
+        }));
+      }
+      if (response.body) {
+        const contentLength = response.headers.get("content-length");
+        const chunks = [];
+        const reader = response.body.getReader();
+        let receivedLength = 0;
+        let decoder;
+        let partialText;
+        const reqZone = typeof Zone !== "undefined" && Zone.current;
+        let canceled = false;
+        yield this.ngZone.runOutsideAngular(() => __async(this, null, function* () {
+          while (true) {
+            if (this.destroyRef.destroyed) {
+              yield reader.cancel();
+              canceled = true;
+              break;
+            }
+            const {
+              done,
+              value
+            } = yield reader.read();
+            if (done) {
+              break;
+            }
+            chunks.push(value);
+            receivedLength += value.length;
+            if (request.reportProgress) {
+              partialText = request.responseType === "text" ? (partialText ?? "") + (decoder ??= new TextDecoder()).decode(value, {
+                stream: true
+              }) : void 0;
+              const reportProgress = () => observer.next({
+                type: HttpEventType.DownloadProgress,
+                total: contentLength ? +contentLength : void 0,
+                loaded: receivedLength,
+                partialText
+              });
+              reqZone ? reqZone.run(reportProgress) : reportProgress();
+            }
+          }
+        }));
+        if (canceled) {
+          observer.complete();
+          return;
+        }
+        const chunksAll = this.concatChunks(chunks, receivedLength);
+        try {
+          const contentType = response.headers.get(CONTENT_TYPE_HEADER) ?? "";
+          body = this.parseBody(request, chunksAll, contentType, status);
+        } catch (error) {
+          observer.error(new HttpErrorResponse({
+            error,
+            headers: new HttpHeaders(response.headers),
+            status: response.status,
+            statusText: response.statusText,
+            url: response.url || request.urlWithParams
+          }));
+          return;
+        }
+      }
+      if (status === 0) {
+        status = body ? HTTP_STATUS_CODE_OK : 0;
+      }
+      const ok = status >= 200 && status < 300;
+      const redirected = response.redirected;
+      const responseType = response.type;
+      if (ok) {
+        observer.next(new HttpResponse({
+          body,
+          headers,
+          status,
+          statusText,
+          url,
+          redirected,
+          responseType
+        }));
+        observer.complete();
+      } else {
+        observer.error(new HttpErrorResponse({
+          error: body,
+          headers,
+          status,
+          statusText,
+          url,
+          redirected,
+          responseType
+        }));
+      }
+    });
   }
   parseBody(request, binContent, contentType, status) {
     switch (request.responseType) {
@@ -1832,7 +1835,7 @@ function xsrfInterceptorFn(req, next) {
     if (locationOrigin !== requestOrigin) {
       return next(req);
     }
-  } catch {
+  } catch (e) {
     return next(req);
   }
   const token = inject(HttpXsrfTokenExtractor).getToken();
@@ -2496,4 +2499,4 @@ export {
   withHttpTransferCache,
   httpResource
 };
-//# sourceMappingURL=chunk-QTU6BERI.js.map
+//# sourceMappingURL=chunk-JVQZM7KU.js.map
