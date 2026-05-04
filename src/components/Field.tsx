@@ -35,7 +35,7 @@ export function SelectField({ icon, label, error, options, id, ...props }: Selec
     <label className="field" htmlFor={selectId}>
       <span className="field__control">
         <span className="field__icon">{icon}</span>
-        <select id={selectId} aria-invalid={Boolean(error)} defaultValue="" {...props}>
+        <select id={selectId} aria-invalid={Boolean(error)} {...props}>
           <option value="" disabled>
             {label}
           </option>
