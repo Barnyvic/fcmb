@@ -12,7 +12,7 @@ npm run dev
 ReqRes currently requires an API key for live requests. Add one to `.env`:
 
 ```bash
-VITE_REQRES_API_KEY=your_reqres_key_here
+REQRES_API_KEY=your_reqres_key_here
 ```
 
 The app still includes safe demo fallback data so the UI remains reviewable if the public API rejects unauthenticated requests.
