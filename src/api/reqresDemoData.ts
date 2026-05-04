@@ -1,4 +1,4 @@
-import type { UserDetailResponse, UsersResponse } from './reqres';
+import type { UserDetailResponse, UsersResponse } from '../types/reqres';
 
 export const demoListResponse: UsersResponse = {
   page: 2,

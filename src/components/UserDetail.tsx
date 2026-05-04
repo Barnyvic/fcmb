@@ -1,5 +1,6 @@
-import type { ReqresUser } from '../api/reqres';
+import type { ReqresUser } from '../types/reqres';
 import { getFullName } from '../utils/user';
+import { Avatar } from './Avatar';
 import { Button } from './Button';
 
 type UserDetailProps = {
@@ -10,41 +11,43 @@ type UserDetailProps = {
 export function UserDetail({ user, isLoading = false }: UserDetailProps) {
   if (isLoading) {
     return (
-      <section className="user-detail" aria-label="Selected user">
-        <div className="skeleton skeleton--avatar" />
-        <div className="skeleton skeleton--line" />
-        <div className="skeleton skeleton--line" />
-        <div className="skeleton skeleton--button" />
+      <section className="grid justify-items-center gap-10 pt-24 max-[1180px]:pt-6 max-[820px]:pb-8" aria-label="Selected user">
+        <div className="h-[194px] w-[194px] animate-pulse rounded-full bg-slate-100" />
+        <div className="h-6 w-full max-w-80 animate-pulse rounded bg-slate-100" />
+        <div className="h-6 w-full max-w-80 animate-pulse rounded bg-slate-100" />
+        <div className="h-13 w-full max-w-[380px] animate-pulse rounded bg-slate-100" />
       </section>
     );
   }
 
   if (!user) {
     return (
-      <section className="user-detail user-detail--empty" aria-label="Selected user">
+      <section className="grid justify-items-center gap-10 pt-24 text-[#74727a] max-[1180px]:pt-6 max-[820px]:pb-8" aria-label="Selected user">
         <p>Select a user to view their details.</p>
       </section>
     );
   }
 
   return (
-    <section className="user-detail" aria-label={`${getFullName(user)} details`}>
-      <img className="user-detail__avatar" src={user.avatar} alt={getFullName(user)} />
-      <dl className="user-detail__data">
-        <div>
-          <dt>Email:</dt>
-          <dd>{user.email}</dd>
+    <section className="grid justify-items-center gap-10 pt-24 max-[1180px]:pt-6 max-[820px]:pb-8" aria-label={`${getFullName(user)} details`}>
+      <Avatar className="h-[min(194px,54vw)] w-[min(194px,54vw)]" src={user.avatar} alt={getFullName(user)} />
+      <dl className="grid w-full max-w-[380px] gap-5">
+        <div className="grid grid-cols-[104px_minmax(0,1fr)] gap-4">
+          <dt className="font-extrabold">Email:</dt>
+          <dd className="m-0 min-w-0 break-words">{user.email}</dd>
         </div>
-        <div>
-          <dt>First Name:</dt>
-          <dd>{user.first_name}</dd>
+        <div className="grid grid-cols-[104px_minmax(0,1fr)] gap-4">
+          <dt className="font-extrabold">First Name:</dt>
+          <dd className="m-0 min-w-0 break-words">{user.first_name}</dd>
         </div>
-        <div>
-          <dt>Last Name:</dt>
-          <dd>{user.last_name}</dd>
+        <div className="grid grid-cols-[104px_minmax(0,1fr)] gap-4">
+          <dt className="font-extrabold">Last Name:</dt>
+          <dd className="m-0 min-w-0 break-words">{user.last_name}</dd>
         </div>
       </dl>
-      <Button fullWidth>Proceed</Button>
+      <Button className="max-w-[380px]" fullWidth>
+        Proceed
+      </Button>
     </section>
   );
 }

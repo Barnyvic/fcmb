@@ -1,14 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Menu } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { ReqresUser } from '../api/reqres';
 import { getUser, getUsers } from '../api/reqres';
-import { BrandLogo } from '../components/BrandLogo';
-import { Button } from '../components/Button';
 import { HeaderProfile } from '../components/HeaderProfile';
-import { Sidebar } from '../components/Sidebar';
+import { PortalShell } from '../components/PortalShell';
 import { UserCard } from '../components/UserCard';
 import { UserDetail } from '../components/UserDetail';
+import type { ReqresUser } from '../types/reqres';
 
 export function UsersPage() {
   const navigate = useNavigate();
@@ -101,36 +98,25 @@ export function UsersPage() {
   }
 
   return (
-    <main className="portal-page">
-      <Sidebar />
-
-      <section className="portal-page__content">
-        <header className="mobile-topbar">
-          <a className="mobile-topbar__brand" href="/users">
-            <BrandLogo />
-            <strong>Career Portal</strong>
-          </a>
-          <Button className="mobile-topbar__menu" aria-label="Open menu">
-            <Menu size={18} />
-          </Button>
-        </header>
-
-        <div className="portal-header">
+    <PortalShell>
+        <div className="flex items-start justify-between gap-6">
           <div>
-            <h1>Users</h1>
-            <p>
+            <h1 className="m-0 text-[clamp(42px,5vw,64px)] leading-none font-extrabold text-[#dfdfe2]">Users</h1>
+            <p className="mt-2 font-semibold text-[#74727a]">
               Page {pageMeta.page} of {pageMeta.totalPages}
             </p>
           </div>
-          <HeaderProfile user={activeUser} />
+          <div className="max-[820px]:hidden">
+            <HeaderProfile user={activeUser} />
+          </div>
         </div>
 
-        {error && <p className="form-alert form-alert--error portal-error">{error}</p>}
+        {error && <p className="mt-5 w-full rounded-[5px] bg-[#fdecef] p-3 text-sm leading-[1.4] text-[#8b1624]">{error}</p>}
 
-        <div className="portal-grid">
-          <section className="user-list" aria-label="Users list">
+        <div className="mt-14 grid grid-cols-[minmax(420px,1fr)_minmax(310px,0.66fr)] items-start gap-12 max-[1180px]:grid-cols-1 max-[820px]:mt-7 max-[820px]:gap-7">
+          <section className="grid max-h-[calc(100vh-210px)] gap-5 overflow-auto pr-2 max-[820px]:max-h-none max-[820px]:overflow-visible max-[820px]:pr-0" aria-label="Users list">
             {isListLoading
-              ? Array.from({ length: 6 }).map((_, index) => <div className="user-card user-card--loading" key={index} />)
+              ? Array.from({ length: 6 }).map((_, index) => <div className="min-h-[150px] animate-pulse rounded bg-slate-100 max-[820px]:min-h-[124px]" key={index} />)
               : users.map((user) => (
                   <UserCard
                     key={user.id}
@@ -143,7 +129,6 @@ export function UsersPage() {
 
           <UserDetail user={activeUser} isLoading={isDetailLoading} />
         </div>
-      </section>
-    </main>
+    </PortalShell>
   );
 }

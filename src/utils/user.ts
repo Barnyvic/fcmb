@@ -1,4 +1,4 @@
-import type { ReqresUser } from '../api/reqres';
+import type { ReqresUser } from '../types/reqres';
 
 export function getFullName(user: ReqresUser) {
   return `${user.first_name} ${user.last_name}`;

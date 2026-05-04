@@ -1,44 +1,8 @@
 import { demoListResponse, demoUserDetail } from './reqresDemoData';
+import type { RegisterPayload, RegisterResponse, UserDetailResponse, UsersResponse } from '../types/reqres';
 
 const API_BASE_URL = 'https://reqres.in/api';
 const apiKey = import.meta.env.VITE_REQRES_API_KEY as string | undefined;
-
-export type ReqresUser = {
-  id: number;
-  email: string;
-  first_name: string;
-  last_name: string;
-  avatar: string;
-};
-
-export type SupportInfo = {
-  url: string;
-  text: string;
-};
-
-export type UsersResponse = {
-  page: number;
-  per_page: number;
-  total: number;
-  total_pages: number;
-  data: ReqresUser[];
-  support: SupportInfo;
-};
-
-export type UserDetailResponse = {
-  data: ReqresUser;
-  support: SupportInfo;
-};
-
-export type RegisterPayload = {
-  name: string;
-  job: string;
-};
-
-export type RegisterResponse = RegisterPayload & {
-  id: string;
-  createdAt: string;
-};
 
 class ApiError extends Error {
   constructor(

@@ -1,6 +1,6 @@
 # FCMB Career Portal
 
-Responsive React implementation of the supplied FCMB registration and users UI.
+Responsive React + TypeScript implementation of the supplied FCMB registration and users UI, styled with Tailwind CSS.
 
 ## Setup
 
@@ -25,7 +25,9 @@ The app still includes safe demo fallback data so the UI remains reviewable if t
 
 ## Structure
 
-- `src/api` contains typed ReqRes API functions.
+- `src/api` contains ReqRes API functions.
 - `src/components` contains reusable UI blocks.
+- `src/enums` contains shared route and account enums.
 - `src/pages` contains route-level screens.
-- `src/styles` contains the global responsive stylesheet.
+- `src/types` contains shared TypeScript contracts.
+- `src/styles` contains Tailwind and global base styles.
