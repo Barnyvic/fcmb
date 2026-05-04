@@ -15,7 +15,7 @@ import type {
 const apiBaseUrl = "https://reqres.in/api";
 const reqresApiKey =
   (import.meta as ImportMeta & { env: Record<string, string | undefined> }).env[
-    "REQRES_API_KEY"
+    "NG_APP_REQRES_API_KEY"
   ] ?? "";
 
 @Injectable({ providedIn: "root" })
@@ -47,15 +47,10 @@ export class ReqresService {
   }
 
   private headers(): HttpHeaders {
-    const headers: Record<string, string> = {
+    return new HttpHeaders({
       "Content-Type": "application/json",
-    };
-
-    if (reqresApiKey) {
-      headers["x-api-key"] = reqresApiKey;
-    }
-
-    return new HttpHeaders(headers);
+      "x-api-key": reqresApiKey,
+    });
   }
 
   private handleRegisterError(
